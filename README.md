@@ -1,9 +1,9 @@
 # Docker Cleanup Script
 
-This script stops, removes all Docker containers, and deletes all Docker images **only after user confirmation**.
+This script stops, removes all Docker containers, deletes all Docker images, and optionally removes all Docker volumes **only after user confirmation**.
 
 ## ⚠ Warning
-This script will delete **all** Docker containers and images on your system.  
+This script will delete **all** Docker containers, images, and volumes on your system.  
 Make sure you really want to do this before proceeding.
 
 ---
@@ -13,6 +13,7 @@ Make sure you really want to do this before proceeding.
 - Stops all running containers.
 - Removes all containers (running or stopped).
 - Removes all Docker images.
+- Removes all Docker volumes.
 
 ---
 
@@ -34,12 +35,14 @@ Make sure you really want to do this before proceeding.
 ---
 
 ## Commands Explained
-- **`docker ps -q`** → Lists only the container IDs of running containers.
+- **`docker ps -q`** → Lists container IDs of running containers.
 - **`docker stop $(docker ps -q)`** → Stops all running containers.
-- **`docker ps -aq`** → Lists all container IDs (running or stopped).
+- **`docker ps -aq`** → Lists all container IDs.
 - **`docker rm $(docker ps -aq)`** → Removes all containers.
 - **`docker images -q`** → Lists all image IDs.
 - **`docker rmi $(docker images -q) -f`** → Removes all images forcefully.
+- **`docker volume ls -q`** → Lists all volume names.
+- **`docker volume rm $(docker volume ls -q)`** → Removes all volumes.
 
 ---
 
@@ -48,9 +51,11 @@ Make sure you really want to do this before proceeding.
 === Docker Cleanup Script ===
 Do you really want to STOP all running containers? (y/N): y
 Stopping all running containers...
-Do you really want to REMOVE all containers? (y/N): n
-Skipping container removal.
-Do you really want to REMOVE all Docker images? (y/N): y
-Removing all images...
+Do you really want to REMOVE all containers? (y/N): y
+Removing all containers...
+Do you really want to REMOVE all Docker images? (y/N): n
+Skipping image removal.
+Do you really want to REMOVE all Docker volumes? (y/N): y
+Removing all volumes...
 === Cleanup completed ===
 ```

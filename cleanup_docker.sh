@@ -29,4 +29,13 @@ else
     echo "Skipping image removal."
 fi
 
+# Ask before removing all volumes
+read -p "Do you really want to REMOVE all Docker volumes? (y/N): " confirm_remove_volumes
+if [[ "$confirm_remove_volumes" =~ ^[Yy]$ ]]; then
+    echo "Removing all volumes..."
+    docker volume rm $(docker volume ls -q) 2>/dev/null || echo "No volumes found."
+else
+    echo "Skipping volume removal."
+fi
+
 echo "=== Cleanup completed ==="
